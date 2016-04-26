@@ -6,12 +6,22 @@ function setup()
     sprite()
     sprites = {}
     local coin = Coin(100,100,70,70,0,"penny")
-    coin:setDraggable(true)
     addSprite(coin)
-    coin = Coin(300,300,80,80,90,"nickel")
-    coin:setDraggable(true)
+    
+    coin = Coin(400,400,80,80,90,"nickel")
     addSprite(coin)
 
+    coin = Coin(700,700,65,65,180,"dime")
+    addSprite(coin)
+
+    coin = Coin(650,650,65,65,0,"dime")
+    addSprite(coin)
+ 
+    coin = Coin(700,100,65,65,0,"dime")
+    addSprite(coin)
+    
+    coin = Coin(100,700,65,65,0,"dime")
+    addSprite(coin)
 end
 
 function addSprite(s)
@@ -29,6 +39,8 @@ function draw()
     -- Do your drawing here
     drawGrid()
     drawSprites() 
+    
+    --draw circle indicating where touches are happening - helps video to make sense
     if touching == true then
         ellipse(CurrentTouch.x,CurrentTouch.y,50)        
         text("TOUCH",CurrentTouch.x,CurrentTouch.y-30)
