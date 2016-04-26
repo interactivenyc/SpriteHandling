@@ -6,8 +6,10 @@ function setup()
     sprite()
     sprites = {}
     local coin = Coin(100,100,70,70,0,"penny")
+    coin:setDraggable(true)
     addSprite(coin)
     coin = Coin(300,300,80,80,90,"nickel")
+    coin:setDraggable(true)
     addSprite(coin)
 
 end
@@ -26,20 +28,19 @@ function draw()
 
     -- Do your drawing here
     drawGrid()
-    drawSprites()
-    
+    drawSprites() 
+end
+
+function touched(touch)
+    for index=1,#sprites do
+        sprites[index]:touched(touch)
+    end
 end
 
 function drawSprites()
     --print("drawSprites "..#sprites)
     for index=1,#sprites do
-        --print("drawSprite "..sprites[index].imgName)
-        local s = sprites[index]
-        pushMatrix()
-        translate(s.x,s.y)
-        rotate(s.r)
-        sprite("Project:"..s.imgName,0,0,s.w,s.h)
-        popMatrix()
+        sprites[index]:draw()
     end
 end
 
@@ -48,12 +49,19 @@ function drawGrid()
     for x=0,WIDTH,gridSize do
         line(x,0,x,HEIGHT)
         text(x,x,20)
-        
     end
     for y=0,WIDTH,gridSize do
         line(0,y,WIDTH,y)
         text(y,20,y)
     end
-    
+end
+
+function hitTest(px,py,x,y,w,h)
+    if px > x and px < x+w and
+    py > y and py < y+h then
+        return true
+    else
+        return false
+    end
 end
 
