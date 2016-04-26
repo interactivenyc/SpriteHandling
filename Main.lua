@@ -29,9 +29,20 @@ function draw()
     -- Do your drawing here
     drawGrid()
     drawSprites() 
+    if touching == true then
+        ellipse(CurrentTouch.x,CurrentTouch.y,50)        
+        text("TOUCH",CurrentTouch.x,CurrentTouch.y-30)
+    end
 end
 
 function touched(touch)
+    if touch.state == BEGAN then
+        touching = true
+    end
+    if touch.state == ENDED then
+        touching = false
+    end
+    
     for index=1,#sprites do
         sprites[index]:touched(touch)
     end
