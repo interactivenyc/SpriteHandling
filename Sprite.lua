@@ -12,6 +12,7 @@ function Sprite:setupSprite(x,y,w,h,r,imgName)
     self.h = h
     self.r = r
     self.imgName = imgName
+    
     self.draggable = false
     self.dragging = false
     self.touchStart = vec2(0,0)
@@ -25,7 +26,7 @@ end
 
 function Sprite:draw()
     -- Codea does not automatically call this method
-    --print("draw: "..self.imgName..self.x..self.y)
+    --print("draw: "..self.imgName.."("..self.x..","..self.y..")")
     pushMatrix()
     translate(self.x,self.y)
     rotate(self.r)
@@ -43,7 +44,9 @@ end
 
 function Sprite:touched(touch)
     -- Codea does not automatically call this method
+
     if hitTest(touch.x,touch.y,self.x-self.w/2,self.y-self.h/2,self.w,self.h) then
+        print("touched: "..self.imgName)
         if touch.state == BEGAN then
             print("touch began "..self.imgName)
             if self.draggable ==true then

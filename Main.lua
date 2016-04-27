@@ -5,26 +5,28 @@ function setup()
     print("Hello World!")
     sprite()
     sprites = {}
-    local coin = Coin(100,100,70,70,0,"penny")
-    addSprite(coin)
+    players = {}
     
-    coin = Coin(400,400,80,80,90,"nickel")
-    addSprite(coin)
-
-    coin = Coin(700,700,65,65,180,"dime")
-    addSprite(coin)
-
-    coin = Coin(650,650,65,65,0,"dime")
-    addSprite(coin)
- 
-    coin = Coin(700,100,65,65,0,"dime")
-    addSprite(coin)
+    local player
+    player = Player("player",1,0)
+    addPlayer(player)
+    player = Player("player",2,90)
+    addPlayer(player)
+    player = Player("player",3,180)
+    addPlayer(player)
+    player = Player("player",4,-90)
+    addPlayer(player)
     
-    coin = Coin(100,700,65,65,0,"dime")
-    addSprite(coin)
+    print(1-((math.pi*2)/360))
+    
+end
+
+function addPlayer(p)
+    players[#players+1] = p
 end
 
 function addSprite(s)
+    --print("addSprite "..s.imgName)
     sprites[#sprites+1] = s
 end
 
@@ -37,8 +39,10 @@ function draw()
     strokeWidth(1)
 
     -- Do your drawing here
-    drawGrid()
+    drawTable()
+    drawPlayers() 
     drawSprites() 
+    drawGrid()
     
     --draw circle indicating where touches are happening - helps video to make sense
     if touching == true then
@@ -58,6 +62,9 @@ function touched(touch)
     for index=1,#sprites do
         sprites[index]:touched(touch)
     end
+    for index=1,#players do
+        players[index]:touched(touch)
+    end
 end
 
 function drawSprites()
@@ -67,8 +74,29 @@ function drawSprites()
     end
 end
 
+function drawPlayers()
+    --print("drawSprites "..#sprites)
+    for index=1,#players do
+        players[index]:draw()
+    end
+end
+
+function drawTable()
+    pushMatrix()
+    pushStyle()
+    translateCenter()
+    fill(65, 176, 225, 255)
+    rect(-225,-225,450,450)
+    popStyle()
+    popMatrix()
+end
+
+function translateCenter()
+    translate(WIDTH/2,HEIGHT/2)
+end
+
 function drawGrid()
-    local gridSize = 50
+    local gridSize = 100
     for x=0,WIDTH,gridSize do
         line(x,0,x,HEIGHT)
         text(x,x,20)
