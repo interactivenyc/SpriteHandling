@@ -6,6 +6,7 @@ function setup()
     sprite()
     sprites = {}
     players = {}
+    touches = {}
     
     local player
     player = Player("player",1,0)
@@ -54,17 +55,41 @@ end
 function touched(touch)
     if touch.state == BEGAN then
         touching = true
+        local playerID = getPlayerID(touch.x,touch.y)
+        touches[touch.id] = playerID 
+        print("getPlayerID: "..playerID..", touchID: "..touch.id)
+
     end
-    if touch.state == ENDED then
-        touching = false
-    end
-    
     for index=1,#sprites do
         sprites[index]:touched(touch)
     end
     for index=1,#players do
         players[index]:touched(touch)
     end
+    if touch.state == ENDED then
+        touching = false
+        touches[touch.id]=nil --delete touch record
+    end
+end
+
+function getPlayerID(x,y)
+    local index = 0
+    if x > WIDTH/2 - players[1].width/2 and x < WIDTH/2 + players[1].width/2 then
+        --player 1
+        if y > 0 and y < HEIGHT/2 then
+            index = 1
+        elseif y > HEIGHT/2 and y < HEIGHT then
+            index = 3
+        end
+    elseif x > WIDTH/2 and x < WIDTH then
+        index = 2
+    elseif x < WIDTH/2-225 then
+        index = 4
+    end
+    
+    
+
+    return index
 end
 
 function drawSprites()

@@ -46,7 +46,7 @@ function Sprite:touched(touch)
     -- Codea does not automatically call this method
 
     if hitTest(touch.x,touch.y,self.x-self.w/2,self.y-self.h/2,self.w,self.h) then
-        print("touched: "..self.imgName)
+
         if touch.state == BEGAN then
             print("touch began "..self.imgName)
             if self.draggable ==true then
@@ -57,7 +57,7 @@ function Sprite:touched(touch)
     end
     if self.dragging then
         if touch.state == MOVING then
-                --print("drag: "..self.imgName.."("..touch.x..","..touch.y..")")
+                print("drag: "..self.imgName.."("..touch.x..","..touch.y..")")
                 self.dragDelta = vec2(touch.x-self.touchStart.x,touch.y-self.touchStart.y)
         elseif touch.state == ENDED then
             print("touch ended "..self.imgName)
